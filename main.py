@@ -14,6 +14,7 @@ def main():
     classifier = BayesianClassifier()
     for training_instance in training_set:
         classifier.train(training_instance)
+    print classifier.attributes.keys()
 
 if __name__ == '__main__':
     main()

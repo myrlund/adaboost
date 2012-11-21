@@ -50,6 +50,10 @@ class BayesianClassifier(Classifier):
         
         return sorted(probs.iteritems(), key=operator.itemgetter(1)).reverse()
     
+    def classify(self, attributes):
+        """docstring for classify"""
+        pass
+    
     def train(self, training_instance):
         """Adds the experience of a training instance to the classifier."""
         
@@ -59,31 +63,20 @@ class BayesianClassifier(Classifier):
         # Increment number of training instances
         self.training_count += 1
         
-        # Increment number of this type of category
-        self.categories[training_instance.category]["t"] += 1
-        
         for attribute in training_instance.attributes:
+        
+            # Add attribute to category attributes
+            self.categories[training_instance.category].append(attribute)
             
-            # Increment total number of this kind of attribute
-            self.attributes[attribute]["t"] += 1
-            
-            # Increment number of categories having this attribute
-            self.attributes[attribute]["c"][training_instance.category] += 1
-            
-            # Increment number of attributes for this category
-            self.categories[training_instance.category]["a"] += 1
-
+            # Add attribute value to attribute's total list of values
+            self.attributes[attribute[0]].append(attribute[1])
+    
     def bootstrap_instance(self, training_instance):
         """Sets up internal structures for handling a training instance."""
         
         if training_instance.category not in self.categories:
-            self.categories[training_instance.category] = {}
-            self.categories[training_instance.category] = dict(t=0, a=0)
+            self.categories[training_instance.category] = []
         
         for attribute in training_instance.attributes:
-            
-            if attribute not in self.attributes:
-                self.attributes[attribute] = dict(t=0, c={})
-        
-            if training_instance.category not in self.attributes[attribute][CATEGORIES]:
-                self.attributes[attribute]["c"][training_instance.category] = 0
+            if attribute[0] not in self.attributes:
+                self.attributes[attribute[0]] = []

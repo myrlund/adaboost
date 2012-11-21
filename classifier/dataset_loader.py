@@ -10,5 +10,6 @@ def load_dataset(file):
 
 def load_training_instance(line):
     split_line = line.strip().split(",")
-    attributes, category = (split_line[:-1], split_line[-1])
+    attributes = zip(range(1, len(split_line)), [float(v) for v in split_line[:-1]])
+    category = split_line[-1]
     return TrainingInstance(category, attributes)

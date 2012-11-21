@@ -6,5 +6,6 @@ class TrainingInstance():
         
         # A tuple of Attribute instances: (a1, a2, ..., an)
         self.attributes = attributes
+    
     def __str__(self):
         return "%s (%s)" % (self.category, ", ".join(self.attributes))
